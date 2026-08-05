@@ -9,9 +9,12 @@
 - [x] Next.js 16 (App Router) + TypeScript + Tailwind CSS 초기화
 - [x] ShadCN UI 초기화 (`components.json`, `lib/utils.ts`)
 - [x] 개발 서버 기동 및 브라우저 확인 (`localhost:3000`, 에러 오버레이 없음)
-- [ ] GitHub 저장소 연결 (§14.1 — `git init` → `gppc5096/US_Monthly_Dividend_ETF` 원격 연결)
-- [ ] Firebase 웹앱 등록 (프로젝트 번호 `587298984700`) (§14.2)
-- [ ] **완료 기준**: 빈 화면 배포 성공
+- [x] GitHub 저장소 연결 (§14.1 — `git init` → `gppc5096/US_Monthly_Dividend_ETF` 원격 연결, push 완료)
+- [x] Firebase 웹앱 등록 (프로젝트 번호 `587298984700`) (§14.2) + `.env.local` 반영
+- [x] Firestore 생성(서울, asia-northeast3) + 보안 규칙 배포
+- [x] 익명 로그인 활성화
+- [x] **완료 기준**: 빈 화면 배포 성공 — https://us-monthly-dividend-etf--usmonthlydividendetf.asia-east1.hosted.app (App Hosting, asia-east1, CLI 로컬 소스 배포)
+- [ ] App Hosting ↔ GitHub 저장소 연결 (push 시 자동 배포) — **보류**: Developer Connect GitHub 연동 단계에서 브라우저가 잘못된 GitHub 계정(namsabo180708-prog)으로 연결되는 문제로 중단. gppc5096 계정으로만 로그인한 상태에서 재시도 필요
 
 ---
 

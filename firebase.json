@@ -1,0 +1,13 @@
+{
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "apphosting": [
+    {
+      "backendId": "us-monthly-dividend-etf",
+      "rootDir": "/",
+      "ignore": ["node_modules", ".git", "firebase-debug.log", ".next"]
+    }
+  ]
+}
