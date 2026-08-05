@@ -57,12 +57,13 @@
 ---
 
 ## P2. 시세·환율 연동 (§4.2, §11)
-- [ ] `src/app/api/quotes/route.ts` — Firestore 캐시(24h) → 외부 API → 정적 폴백 3단 계층
-- [ ] `src/app/api/fx/route.ts` — 캐시(12h) → 외부 API → 폴백, `?symbols=` 쿼리 지원
-- [ ] `lib/market/{quotesProvider,fxProvider,cache}.ts` — 파일 최상단 `import 'server-only'`
-- [ ] 환경변수 등록: `MARKET_API_KEY`, `FX_API_KEY` (`.env.local`, 클라이언트 번들 노출 금지)
-- [ ] 폴백 사용 시 UI 배지 문구 연동 준비 ("실시간 시세 연결 실패 — 참고값으로 계산됨")
-- [ ] **완료 기준**: API 차단 상태에서도 폴백으로 정상 동작
+- [x] `src/app/api/quotes/route.ts` — Firestore 캐시(24h) → 외부 API → 정적 폴백 3단 계층
+- [x] `src/app/api/fx/route.ts` — 캐시(12h) → 외부 API → 폴백, `?symbols=` 쿼리 지원
+- [x] `lib/market/{quotesProvider,fxProvider,cache}.ts` — 파일 최상단 `import 'server-only'` 확인
+- [x] `lib/firebase/admin.ts` — 자격증명 없으면 예외 없이 null 반환(캐시 계층만 스킵), P5에서 확장 예정
+- [ ] 환경변수 등록: `MARKET_API_KEY`, `FX_API_KEY` (아직 실제 키 미발급 — 발급 시 `.env.local`에 채우면 바로 동작)
+- [ ] 폴백 사용 시 UI 배지 문구 연동 (UI가 아직 없어 P3/P4에서 연결)
+- [x] **완료 기준**: API 차단 상태에서도 폴백으로 정상 동작 — 실키 없이 `curl localhost:3000/api/quotes`, `/api/fx?symbols=KRW,PHP` 로 200 + `isFallback:true` 확인, 서버 에러 없음, tsc/lint 클린
 
 ---
 

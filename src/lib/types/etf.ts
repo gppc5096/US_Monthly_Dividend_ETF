@@ -1,3 +1,5 @@
+import type { FxRates } from '@/lib/schema/portfolioInput';
+
 export const ETF_GROUPS = ['sp500', 'nasdaq100', 'bond'] as const;
 export type EtfGroup = (typeof ETF_GROUPS)[number];
 
@@ -29,6 +31,12 @@ export type QuoteMap = Record<string, Quote>;
 
 export interface MarketSnapshot {
   quotes: QuoteMap;
+  asOf: string;
+  isFallback: boolean;
+}
+
+export interface FxSnapshot {
+  rates: FxRates;
   asOf: string;
   isFallback: boolean;
 }

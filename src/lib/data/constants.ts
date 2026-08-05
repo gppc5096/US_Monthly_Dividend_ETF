@@ -3,6 +3,10 @@ export const US_WITHHOLDING_RATE = 0.15;
 export const QUOTES_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 export const FX_CACHE_TTL_MS = 12 * 60 * 60 * 1000;
 export const COMMENTARY_TIMEOUT_MS = 20 * 1000;
+export const MARKET_FETCH_TIMEOUT_MS = 8 * 1000;
+
+/** External market APIs report yields as percentages; the calc engine uses ratios. */
+export const PERCENT_DIVISOR = 100;
 
 export const MONTHS_PER_YEAR = 12;
 
