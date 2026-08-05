@@ -21,38 +21,38 @@
 ## P1. 데이터·계산 엔진 (§3, §6)
 
 ### 데이터 상수 — `lib/data/`
-- [ ] `etfs.ts` — ETF 10종 마스터 (§3 표: 그룹/티커/명칭/폴백 배당률/과세유형)
-- [ ] `countries.ts` — 국가·통화 18종 (§6.4)
-- [ ] `taxPresets.ts` — 국가별 세율 프리셋
-- [ ] `fallbackQuotes.ts` — API 실패 시 폴백 배당률
-- [ ] `constants.ts` — 매직넘버 명명 상수 (15% 원천징수, 24h/12h 캐시 TTL 등) (§5.1 규칙6)
+- [x] `etfs.ts` — ETF 10종 마스터 (§3 표: 그룹/티커/명칭/폴백 배당률/과세유형)
+- [x] `countries.ts` — 국가·통화 18종 (§6.4)
+- [x] `taxPresets.ts` — 국가별 세율 프리셋
+- [x] `fallbackQuotes.ts` — API 실패 시 폴백 배당률
+- [x] `constants.ts` — 매직넘버 명명 상수 (원천징수율, 캐시 TTL, 나스닥 상한, 단일종목 상한, 그룹 최소비중, 채권비중 기본/범위, STEP5 이동단위 등) (§5.1 규칙6)
 
-### 계산 함수 — `lib/calc/` (React·Firebase·fetch import 금지)
-- [ ] `allocate.ts` — 자동 배분 알고리즘 STEP1~6 (§6.2)
-  - STEP4 동률 처리: 배당률 내림차순, 동률 시 티커 알파벳 오름차순
-  - STEP5 이동 단위 1%p, 목표 달성 시점 즉시 정지, 나스닥 상한 70%(주식군 기준)
-  - 가드레일: 단일 종목 40% 상한, 그룹 최소 5%(채권 0% 예외), 비중 합계 정확히 100%
-- [ ] `tax.ts` — 미국 원천징수 + 거주국 세금, `withholdingExempt`/`creditForeignTax` 분기 (§6.3)
-- [ ] `income.ts` — 연/월 세전·세후 산출
-- [ ] `currency.ts` — 통화 변환 (내부 계산은 USD 기준, 표시 직전 변환) (§6.4)
-- [ ] `feasibility.ts` — 달성 판정 + 미달 시 최대가능액·필요원금 역산·조정 제안
-- [ ] `index.ts` — `runPortfolio` 파이프라인 조립
+### 계산 함수 — `lib/calc/` (React·Firebase·fetch import 금지, 검증 완료)
+- [x] `allocate.ts` — 자동 배분 알고리즘 STEP1~6 (§6.2)
+  - STEP4 동률 처리: 배당률 내림차순, 동률 시 티커 알파벳 오름차순 ✓ (`rankByYield`)
+  - STEP5 이동 단위 1%p, 목표 달성 시점 즉시 정지, 나스닥 상한 70%(주식군 기준) ✓
+  - 가드레일: 단일 종목 40% 상한, 그룹 최소 5%(채권 0% 예외), 비중 합계 정확히 100%(bp 단위 정수 연산) ✓
+- [x] `tax.ts` — 미국 원천징수 + 거주국 세금, `withholdingExempt`/`creditForeignTax` 분기 (§6.3)
+- [x] `income.ts` — 연/월 세전·세후 산출
+- [x] `currency.ts` — 통화 변환 (내부 계산은 USD 기준, 표시 직전 변환) (§6.4)
+- [x] `feasibility.ts` — 달성 판정 + 미달 시 최대가능액·필요원금 역산·조정 제안
+- [x] `index.ts` — `runPortfolio` 파이프라인 조립 (112줄)
 
 ### 스키마·타입
-- [ ] `lib/schema/portfolioInput.ts` — Zod 스키마 (`PortfolioInput`/`PortfolioResult` 타입 원천, §6.1)
-- [ ] `lib/types/{etf,result,scenario}.ts`
+- [x] `lib/schema/portfolioInput.ts` — Zod 스키마 (`PortfolioInput`/`PortfolioResult` 타입 원천, §6.1)
+- [x] `lib/types/{etf,result,scenario}.ts`
 
-### 단위 테스트 (§13.1) — 전부 통과해야 P1 완료
-- [ ] 균등분산으로 목표 달성 → STEP3에서 확정되는가
-- [ ] 목표 미달 → 상위 2종목 압축(STEP4) 후 달성되는가
-- [ ] 나스닥 상한 70%를 넘지 않는가
-- [ ] STEP4 배당률 동률 시 티커 알파벳순으로 동일하게 재현되는가
-- [ ] STEP5에서 목표 달성 시점(1%p 단위)에 정확히 정지하는가
-- [ ] SGOV 원천징수 면제가 반영되는가
-- [ ] 외국납부세액공제 on/off 결과 차이가 있는가
-- [ ] 비중 합계가 항상 정확히 100%인가
-- [ ] 수동 모드에서 합계 99.9% 입력 시 검증 오류가 나는가
-- [ ] **완료 기준**: 테스트 케이스 전부 통과 (계산만으로 결과 도출 가능)
+### 단위 테스트 (§13.1) — 전부 통과 확인 (vitest, 3 파일 / 21 테스트, `npm run test`)
+- [x] 균등분산으로 목표 달성 → STEP3에서 확정되는가
+- [x] 목표 미달 → 상위 2종목 압축(STEP4) 후 달성되는가
+- [x] 나스닥 상한 70%를 넘지 않는가
+- [x] STEP4 배당률 동률 시 티커 알파벳순으로 동일하게 재현되는가
+- [x] STEP5에서 목표 달성 시점(1%p 단위)에 정확히 정지하는가
+- [x] SGOV 원천징수 면제가 반영되는가
+- [x] 외국납부세액공제 on/off 결과 차이가 있는가
+- [x] 비중 합계가 항상 정확히 100%인가
+- [x] 수동 모드에서 합계 99.9% 입력 시 검증 오류가 나는가
+- [x] **완료 기준**: 테스트 케이스 전부 통과 (`npm run test` 21 passed, `npx tsc --noEmit` 에러 없음)
 
 ---
 
