@@ -62,24 +62,27 @@
 - [x] `lib/market/{quotesProvider,fxProvider,cache}.ts` — 파일 최상단 `import 'server-only'` 확인
 - [x] `lib/firebase/admin.ts` — 자격증명 없으면 예외 없이 null 반환(캐시 계층만 스킵), P5에서 확장 예정
 - [ ] 환경변수 등록: `MARKET_API_KEY`, `FX_API_KEY` (아직 실제 키 미발급 — 발급 시 `.env.local`에 채우면 바로 동작)
-- [ ] 폴백 사용 시 UI 배지 문구 연동 (UI가 아직 없어 P3/P4에서 연결)
+- [x] 폴백 사용 시 UI 배지 문구 연동 (P3에서 연결 완료)
 - [x] **완료 기준**: API 차단 상태에서도 폴백으로 정상 동작 — 실키 없이 `curl localhost:3000/api/quotes`, `/api/fx?symbols=KRW,PHP` 로 200 + `isFallback:true` 확인, 서버 에러 없음, tsc/lint 클린
 
 ---
 
 ## P3. 위저드 UI (§7, §5 디렉토리)
-- [ ] `store/wizardStore.ts` — Zustand 단일 스토어
-- [ ] `components/wizard/WizardShell.tsx` — 단계 전환 컨테이너
-- [ ] Step 0 `StepModeSelect.tsx` — 자동/수동 선택
-- [ ] Step 1 `StepPrincipal.tsx` — 총 투자금
-- [ ] Step 2 `StepTargetIncome.tsx` — 목표 월 세후 수령액
-- [ ] Step 3 `StepCountry.tsx` — 국가/통화 선택 (한국·미국 고정 + 1개국), 세율 프리셋 자동 채움 트리거
-- [ ] Step 4 `StepTaxAndFx.tsx` — 세율·환율 확인/수정
-- [ ] Step 5-A `StepBondSlider.tsx` — 채권 비중 슬라이더 (자동 모드, 기본 20%, 0~50%)
-- [ ] Step 5-B `StepManualPicker.tsx` — 종목 선택 + 비중 입력 (합 100% 검증)
-- [ ] `components/status/StatusBox.tsx` — 누적 요약, 모바일 sticky 접이식 / 데스크톱 사이드 고정, 클릭 시 해당 단계로 복귀
-- [ ] `hooks/{useAnonUser,useQuotes,useFxRates,usePortfolioResult}.ts`
-- [ ] **완료 기준**: 입력 → 결과 객체 생성까지 연결
+- [x] `store/wizardStore.ts` — Zustand 단일 스토어 (174줄) + `store/wizardSelectors.ts` 파생 셀렉터 분리(200줄 상한 준수)
+- [x] `components/wizard/WizardShell.tsx` — 단계 전환 컨테이너, 진행 룰 표시
+- [x] Step 0 `StepModeSelect.tsx` — 자동/수동 카드형 RadioGroup
+- [x] Step 1 `StepPrincipal.tsx` — 총 투자금 (RHF + Zod, `inputMode="decimal"`)
+- [x] Step 2 `StepTargetIncome.tsx` — 목표 월 세후 수령액 (RHF + Zod)
+- [x] Step 3 `StepCountry.tsx` — 한국·미국 고정 행 + 거주국 Select, 선택 시 세율 프리셋·표시통화 자동 반영
+- [x] Step 4 `StepTaxAndFx.tsx` — 세율 %필드 + 외국납부세액공제 스위치 + `/api/fx` 초기값, 수동 수정 시 "수동" 배지·되돌리기
+- [x] Step 5-A `StepBondSlider.tsx` — 채권 비중 슬라이더 (기본 20%, 0~50%)
+- [x] Step 5-B `StepManualPicker.tsx` — 종목 선택 + 비중 입력, 합계 100% 실시간 검증
+- [x] `components/status/StatusBox.tsx` — 누적 요약, 모바일 sticky 접이식(기본 접힘) / 데스크톱 사이드 고정, 클릭 시 해당 단계로 복귀
+- [x] `hooks/{useAnonUser,useQuotes,useFxRates,usePortfolioResult}.ts` (`useAnonUser`는 P5 Firebase 연동 전 스텁)
+- [x] 디자인 토큰(§12.1) `globals.css` 적용 + IBM Plex Sans KR / IBM Plex Mono, 다크 우선·시스템 추종
+- [x] 폴백 배지 문구 연동 (§4.2 — 결과 미리보기 "실시간 시세 연결 실패 — 참고값으로 계산됨", 환율 "참고값 · 연결 실패")
+- [x] **완료 기준**: 입력 → 결과 객체 생성까지 연결 — 자동/수동 모두 브라우저에서 완주 확인. 자동(₩5억/목표 ₩300만/필리핀, 채권 20%) → 월 세후 ₩3,531,250(목표의 118%, STEP3), 수동(₩3억/QQQI 60%·TLTW 40%/한국) → ₩2,876,400(목표의 144%). 모바일 375×812 무횡스크롤, 콘솔 에러 0, `npx tsc --noEmit`/`npm run lint` 클린
+- [x] 접근성 보정: `globals.css` 다크모드 `--surface`/`--rule`/`--hover-surface`/`--muted-surface` 명도 상향 (배경과 거의 구분 안 되던 카드·입력창·슬라이더 경계 문제 해결, PRD §12.1 갱신 완료)
 
 ---
 

@@ -34,3 +34,9 @@ export const MAX_DISPLAY_CURRENCIES = 3;
 export const DISCLAIMER =
   '본 계산은 단순화된 모델이며 실제 세액은 거주 상태, 조세조약, 개인 소득 구간에 따라 달라집니다. ' +
   '세율은 직접 확인·수정하여 사용하시고, 실제 신고는 세무 전문가와 상담하십시오.';
+
+/** PRD §15 — pinned to the footer on every screen. */
+export const INVESTMENT_DISCLAIMER =
+  '본 서비스는 정보 제공 및 계산 목적의 도구이며 투자 권유나 세무 자문이 아닙니다. ' +
+  '표시된 배당수익률은 과거·현재 기준 참고값으로 미래 수익을 보장하지 않으며, ' +
+  '커버드콜 상품은 원금 손실 가능성이 있습니다. 투자 판단과 세금 신고의 책임은 이용자 본인에게 있습니다.';
