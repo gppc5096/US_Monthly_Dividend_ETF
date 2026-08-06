@@ -87,14 +87,14 @@
 ---
 
 ## P4. 결과 화면 (§8)
-- [ ] `ResultSection.tsx` — 결과 영역 조립
-- [ ] `FeasibilityAlert.tsx` — 달성(초록)/미달(주황) 배너, 미달 시 대안 2가지(최대가능액+필요원금, 조정 제안) 반드시 동시 표기
-- [ ] `AllocationTable.tsx` + `AllocationChart.tsx` (Recharts 도넛)
-- [ ] `IncomeByCurrencyTable.tsx` — 국가별 연/월 세전·세후 테이블 (★ 핵심 산출물), 목표 대비 달성률 배지
-- [ ] `TaxBreakdown.tsx`
-- [ ] `CommentaryCard.tsx` 자리 표시 (내용은 P6에서 연결)
-- [ ] 모바일 `md` 미만에서 통화별 카드 스택으로 전환 (가로 스크롤 금지)
-- [ ] **완료 기준**: 모바일 카드 전환 확인
+- [x] `ResultSection.tsx` — 결과 영역 조립, 위저드 계산완료 단계에서 렌더 (기존 임시 `CalcPreview.tsx`는 삭제)
+- [x] `FeasibilityAlert.tsx` — 달성(초록)/미달(주황) 배너. 검증: 달성 시 "목표 월 세후 ₩3,000,000 대비 ₩3,531,250 (118%) 달성", 미달 시 "대안 1·원금 조정(약 ₩6,321,032,604 필요)"+"대안 2·배분 조정" 동시 표기 확인
+- [x] `AllocationTable.tsx` + `AllocationChart.tsx` (Recharts 도넛) — 종목 10개 테이블 + 그룹별 비중 도넛, 미달 시나리오에서 STEP5 나스닥 70% 상한(56/80%)까지 이동한 배분도 정상 반영
+- [x] `IncomeByCurrencyTable.tsx` — 통화별(KRW/USD/PHP) 연/월 세전·세후 테이블 (★ 핵심 산출물), 월 세후 셀 옆 "목표의 N%" 배지 확인
+- [x] `TaxBreakdown.tsx` — 연 세전배당/미국 원천징수/거주국 추가세/연 세후배당/실효세율 확인
+- [x] `CommentaryCard.tsx` — "준비 중" 배지의 플레이스홀더 카드 (실제 생성은 P6에서 연결)
+- [x] 모바일 대응 (`md` 미만 카드 스택)
+- [x] **완료 기준**: 달성(자동/₩5억/필리핀/목표₩300만/채권20% → ₩3,531,250, 118%, STEP3)·미달(자동/₩1000만/한국/목표₩5000만/채권20% → ₩79,101, 0%, STEP6) 두 시나리오 모두 브라우저 실클릭으로 완주 확인. 콘솔 에러 0, `npx tsc --noEmit`/`npm run lint`/`npm run test`(21 passed) 클린, 전 파일 200줄 이하(`ResultSection.tsx` 115줄 최대)
 
 ---
 

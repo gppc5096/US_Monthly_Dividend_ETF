@@ -1,7 +1,7 @@
 'use client';
 
+import { ResultSection } from '@/components/result/ResultSection';
 import { StatusBox } from '@/components/status/StatusBox';
-import { CalcPreview } from '@/components/wizard/CalcPreview';
 import { StepBondSlider } from '@/components/wizard/StepBondSlider';
 import { StepCountry } from '@/components/wizard/StepCountry';
 import { StepManualPicker } from '@/components/wizard/StepManualPicker';
@@ -29,7 +29,7 @@ function StepContent({ step, mode }: { step: number; mode: 'auto' | 'manual' | n
     case 5:
       return mode === 'manual' ? <StepManualPicker /> : <StepBondSlider />;
     default:
-      return <CalcPreview />;
+      return <ResultSection />;
   }
 }
 

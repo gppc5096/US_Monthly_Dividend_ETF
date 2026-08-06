@@ -3,14 +3,17 @@
 import { useMemo } from 'react';
 
 import { useQuotes } from '@/hooks/useQuotes';
-import { runPortfolio } from '@/lib/calc';
+import { displayFeasibility, runPortfolio } from '@/lib/calc';
 import type { PortfolioInput, PortfolioResult } from '@/lib/schema/portfolioInput';
+import type { FeasibilityDisplay } from '@/lib/types/result';
 import { selectPortfolioInput } from '@/store/wizardSelectors';
 import { useWizardStore } from '@/store/wizardStore';
 
 export interface PortfolioResultState {
   input: PortfolioInput | null;
   result: PortfolioResult | null;
+  /** Feasibility figures restated in the first display currency, for the result banner. */
+  feasibility: FeasibilityDisplay | null;
   error: string | null;
   isLoading: boolean;
 }
@@ -29,5 +32,10 @@ export function usePortfolioResult(): PortfolioResultState {
     }
   }, [input, snapshot]);
 
-  return { input, result, error, isLoading };
+  const feasibility = useMemo(() => {
+    if (!input || !result) return null;
+    return displayFeasibility(result.feasibility, input.displayCurrencies[0], input.fxRates);
+  }, [input, result]);
+
+  return { input, result, feasibility, error, isLoading };
 }

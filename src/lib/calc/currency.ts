@@ -1,7 +1,7 @@
 import { MONTHS_PER_YEAR } from '@/lib/data/constants';
 import { BASE_CURRENCY, type CurrencyCode } from '@/lib/data/countries';
-import type { FxRates, MoneyByPeriod } from '@/lib/schema/portfolioInput';
-import type { CurrencyRow } from '@/lib/types/result';
+import type { FeasibilityResult, FxRates, MoneyByPeriod } from '@/lib/schema/portfolioInput';
+import type { CurrencyRow, FeasibilityDisplay } from '@/lib/types/result';
 
 export function rateOf(currency: CurrencyCode, fxRates: FxRates): number {
   if (currency === BASE_CURRENCY) return 1;
@@ -22,6 +22,22 @@ export function toUsd(amount: number, currency: CurrencyCode, fxRates: FxRates):
 
 export function toMonthly(annualUsd: number): MoneyByPeriod {
   return { annualUsd, monthlyUsd: annualUsd / MONTHS_PER_YEAR };
+}
+
+/** Restates the USD-denominated feasibility figures in the screen's primary currency. */
+export function displayFeasibility(
+  feasibility: FeasibilityResult,
+  currency: CurrencyCode,
+  fxRates: FxRates,
+): FeasibilityDisplay {
+  const rate = rateOf(currency, fxRates);
+  return {
+    currency,
+    monthlyNet: feasibility.monthlyNetUsd * rate,
+    targetMonthlyNet: feasibility.targetMonthlyNetUsd * rate,
+    maxMonthlyNet: feasibility.maxMonthlyNetUsd * rate,
+    requiredPrincipal: feasibility.requiredPrincipalUsd * rate,
+  };
 }
 
 export function buildCurrencyRows(
