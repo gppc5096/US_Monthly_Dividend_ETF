@@ -1,5 +1,7 @@
 'use client';
 
+import Link from 'next/link';
+
 import { ResultSection } from '@/components/result/ResultSection';
 import { StatusBox } from '@/components/status/StatusBox';
 import { StepBondSlider } from '@/components/wizard/StepBondSlider';
@@ -9,6 +11,7 @@ import { StepModeSelect } from '@/components/wizard/StepModeSelect';
 import { StepPrincipal } from '@/components/wizard/StepPrincipal';
 import { StepTargetIncome } from '@/components/wizard/StepTargetIncome';
 import { StepTaxAndFx } from '@/components/wizard/StepTaxAndFx';
+import { useAnonUser } from '@/hooks/useAnonUser';
 import { INVESTMENT_DISCLAIMER } from '@/lib/data/constants';
 import { toPercentValue } from '@/lib/format/percentFormat';
 import { selectProgressRatio } from '@/store/wizardSelectors';
@@ -37,6 +40,8 @@ export function WizardShell() {
   const step = useWizardStore((state) => state.step);
   const mode = useWizardStore((state) => state.mode);
   const progress = useWizardStore(selectProgressRatio);
+  // PRD §9.2 — claim the anonymous uid on app entry, before the user reaches "결과 저장".
+  useAnonUser();
 
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 md:px-8">
@@ -48,9 +53,14 @@ export function WizardShell() {
               배당 현금흐름 계산기
             </span>
           </h1>
-          <span className="tnum font-mono text-xs text-muted-foreground">
-            {Math.min(step, PREVIEW_STEP)} / {PREVIEW_STEP}
-          </span>
+          <div className="flex items-baseline gap-4">
+            <Link href="/saved" className="text-xs text-muted-foreground underline">
+              저장 목록
+            </Link>
+            <span className="tnum font-mono text-xs text-muted-foreground">
+              {Math.min(step, PREVIEW_STEP)} / {PREVIEW_STEP}
+            </span>
+          </div>
         </div>
         <div className="h-px w-full bg-rule" aria-hidden>
           <div

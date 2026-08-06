@@ -99,25 +99,26 @@
 ---
 
 ## P5. 저장/삭제 (§9, §10)
-- [ ] `lib/firebase/{client,admin,anonAuth,scenarios}.ts`
-- [ ] 앱 최초 진입 시 `signInAnonymously()` 자동 호출
-- [ ] `SaveScenarioDialog.tsx` — 제목 입력 모달, 기본값 자동 제안
-- [ ] `src/app/saved/page.tsx` + `SavedScenarioTable.tsx` — 저장 목록 테이블
-- [ ] `DeleteConfirmDialog.tsx` (AlertDialog) — 삭제 확인 → 토스트
-- [ ] "보기" 클릭 시 저장된 입력값으로 위저드 복원 → 재계산
-- [ ] Firestore 보안 규칙 배포 (§10.2 — `marketData`는 서버만 write, `scenarios`는 소유자만 read/write)
-- [ ] `/saved` 상단 익명 인증 한계 고지 문구 1줄
+- [x] `lib/firebase/{client,admin,anonAuth,scenarios}.ts` — client.ts는 `ignoreUndefinedProperties: true`로 초기화(옵션 필드 undefined 대응)
+- [x] 앱 최초 진입 시 `signInAnonymously()` 자동 호출 (`useAnonUser` 완성)
+- [x] `SaveScenarioDialog.tsx` — 제목 입력 모달, 기본값 자동 제안(`2026-08-06 자동배분 월₩3,000,000` 형식 확인)
+- [x] `src/app/saved/page.tsx` + `SavedScenarioTable.tsx` — 저장 목록 테이블 (제목/모드/원금/월세후/저장일/동작)
+- [x] `DeleteConfirmDialog.tsx` (AlertDialog) — 삭제 확인("되돌릴 수 없습니다") → 토스트 "삭제했습니다"
+- [x] "보기" 클릭 시 저장된 입력값으로 위저드 복원 → 재계산 (복원 후 재계산 결과가 저장 시점과 정확히 일치 확인: ₩3,489,750/116%/STEP3)
+- [x] Firestore 보안 규칙 배포 (§10.2 — 이미 배포됨, 실제 익명 인증 uid로 CRUD 성공 확인)
+- [x] `/saved` 상단 익명 인증 한계 고지 문구 1줄 (§9.3 그대로)
+- [x] **완료 기준**: 저장→목록→보기→삭제 전체 플로우를 실제 Firestore(`usmonthlydividendetf`)에 대해 브라우저 실클릭으로 확인. 콘솔 에러 0, `npx tsc --noEmit`/`npm run lint`/`npm run test`(21 passed) 클린, 전 파일 200줄 이하
 - [ ] **완료 기준**: 저장·목록·삭제·복원 동작
 
 ---
 
 ## P6. AI 총평 (§8.3, §11)
-- [ ] `src/app/api/commentary/route.ts` (타임아웃 20s)
-- [ ] `lib/ai/{commentary,prompt}.ts` — 프롬프트 템플릿 분리
-- [ ] 프롬프트 규칙: 숫자 재생성 금지(전달받은 값만 인용), 커버드콜 원금 변동 위험 1문장 필수 포함
-- [ ] `CommentaryCard.tsx` 완성 — 실패 시 "다시 시도" 버튼, 결과 테이블은 그대로 유지
-- [ ] `ANTHROPIC_API_KEY` 환경변수 등록, 구현 시점 최신 모델 ID로 재확인 (§4.1 — 현재 표기: `claude-sonnet-5`)
-- [ ] **완료 기준**: 총평 생성 실패 시에도 앱 정상 동작
+- [x] `src/app/api/commentary/route.ts` (타임아웃 20s, `COMMENTARY_TIMEOUT_MS`)
+- [x] `lib/ai/{commentary,prompt}.ts` — 프롬프트 템플릿 분리, `@anthropic-ai/sdk` 연동(키 없으면 서버가 죽지 않고 에러 응답)
+- [x] 프롬프트 규칙: 숫자 재생성 금지(전달받은 값만 인용), 커버드콜 원금 변동 위험 1문장 필수 포함(`isCoveredCall` + `hasCoveredCall` 플래그로 강제), 3~5문장
+- [x] `CommentaryCard.tsx` 완성 — 결과 진입 시 자동 호출, 실패 시 "총평 생성에 실패했습니다. 아래 결과 표와 차트는 그대로 유효합니다." + "다시 시도" 버튼
+- [ ] `ANTHROPIC_API_KEY` 환경변수 등록 — 아직 실제 키 미발급(`.env.local` 빈 값 유지), 발급 시 즉시 동작
+- [x] **완료 기준**: 총평 생성 실패 시에도 앱 정상 동작 — 키 없는 상태로 브라우저 실클릭 검증: 총평만 실패 처리되고 배분표/차트/통화별테이블/세금분해/달성배너는 전부 정상, "다시 시도" 재클릭 후에도 앱 정상, 콘솔 에러 0, `npx tsc --noEmit`/`npm run lint`/`npm run test`(21 passed) 클린
 
 ---
 
@@ -145,4 +146,6 @@
 ## 미해결/확인 필요 (진행 중 재확인)
 - [ ] 시세 API 공급자 최종 확정 (FMP vs Finnhub) — 무료 티어 한도 비교
 - [ ] 환율 API 공급자 최종 확정 (exchangerate.host 등)
-- [ ] Firebase App Hosting Next.js 16 Deployment Adapter 실제 배포 테스트 (16.2+ 기준선 확인됨, 프로젝트는 16.3.0)
+- [x] Firebase App Hosting Next.js 16 Deployment Adapter 실제 배포 테스트 (16.2+ 기준선 확인됨, 프로젝트는 16.3.0 — P0~P4 로컬소스 배포로 검증 완료)
+- [ ] `ANTHROPIC_API_KEY` 실제 키 발급 및 등록 (P6 로직은 완성, 키만 넣으면 동작)
+- [ ] App Hosting ↔ GitHub 자동배포 연결 (§14.2) — P0에서 보류된 상태 그대로, gppc5096 계정으로만 로그인한 브라우저에서 재시도 필요

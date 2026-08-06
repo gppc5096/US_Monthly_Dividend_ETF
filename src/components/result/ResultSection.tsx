@@ -8,6 +8,7 @@ import { CommentaryCard } from '@/components/result/CommentaryCard';
 import { FeasibilityAlert } from '@/components/result/FeasibilityAlert';
 import { IncomeByCurrencyTable } from '@/components/result/IncomeByCurrencyTable';
 import { TaxBreakdown } from '@/components/result/TaxBreakdown';
+import { SaveScenarioDialog } from '@/components/saved/SaveScenarioDialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { usePortfolioResult } from '@/hooks/usePortfolioResult';
@@ -30,13 +31,13 @@ function Block({ title, hint, children }: { title: string; hint?: string; childr
 
 export function ResultSection() {
   const goBack = useWizardStore((state) => state.goBack);
-  const { result, feasibility, error, isLoading } = usePortfolioResult();
+  const { input, result, feasibility, error, isLoading } = usePortfolioResult();
 
   if (isLoading) {
     return <p className="text-sm text-muted-foreground">시세를 불러오는 중…</p>;
   }
 
-  if (error || !result || !feasibility) {
+  if (error || !input || !result || !feasibility) {
     return (
       <div className="flex flex-col items-start gap-4">
         <p className="text-sm text-destructive">{error ?? '입력이 아직 완성되지 않았습니다.'}</p>
@@ -105,11 +106,14 @@ export function ResultSection() {
         <TaxBreakdown taxDetail={taxDetail} gross={result.gross} net={result.net} />
       </Block>
 
-      <CommentaryCard />
+      <CommentaryCard result={result} />
 
-      <Button variant="outline" onClick={goBack} className="h-12 self-start px-6">
-        입력 수정하기
-      </Button>
+      <div className="flex flex-wrap gap-3">
+        <SaveScenarioDialog input={input} result={result} />
+        <Button variant="outline" onClick={goBack} className="h-12 px-6">
+          입력 수정하기
+        </Button>
+      </div>
     </section>
   );
 }

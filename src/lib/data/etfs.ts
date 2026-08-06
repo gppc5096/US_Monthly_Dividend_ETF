@@ -94,3 +94,20 @@ export function etfByTicker(ticker: string): EtfMaster | undefined {
 export function tickersInGroup(group: EtfGroup): Ticker[] {
   return ETFS.filter((etf) => etf.group === group).map((etf) => etf.ticker);
 }
+
+/** Option-income products whose 원금(NAV) can erode; SGOV is the only plain holding. */
+const COVERED_CALL_TICKERS: readonly string[] = [
+  'SPYI',
+  'JEPI',
+  'XYLD',
+  'IVVW',
+  'QQQI',
+  'JEPQ',
+  'QYLD',
+  'QNTA',
+  'TLTW',
+] satisfies readonly Ticker[];
+
+export function isCoveredCall(ticker: string): boolean {
+  return COVERED_CALL_TICKERS.includes(ticker);
+}

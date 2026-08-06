@@ -7,7 +7,13 @@ import type { CountryCode, CurrencyCode } from '@/lib/data/countries';
 import { currencyOfCountry, FIXED_DISPLAY_CURRENCIES } from '@/lib/data/countries';
 import { FALLBACK_FX_RATES } from '@/lib/data/fallbackQuotes';
 import { taxPresetOf } from '@/lib/data/taxPresets';
-import type { FxRates, ManualHolding, Money, TaxSettings } from '@/lib/schema/portfolioInput';
+import type {
+  FxRates,
+  ManualHolding,
+  Money,
+  PortfolioInput,
+  TaxSettings,
+} from '@/lib/schema/portfolioInput';
 
 export const FIRST_STEP = 0;
 export const LAST_INPUT_STEP = 5;
@@ -16,7 +22,12 @@ export const PREVIEW_STEP = 6;
 const DEFAULT_COUNTRY: CountryCode = 'KR';
 const DEFAULT_CURRENCY: CurrencyCode = 'KRW';
 
-export interface WizardState {
+const ALL_INPUT_STEPS = Array.from(
+  { length: LAST_INPUT_STEP - FIRST_STEP + 1 },
+  (_, offset) => FIRST_STEP + offset,
+);
+
+export interface WizardData {
   step: number;
   mode: 'auto' | 'manual' | null;
   principal: Money;
@@ -30,7 +41,9 @@ export interface WizardState {
   bondRatio: number;
   manualHoldings: ManualHolding[];
   confirmedSteps: number[];
+}
 
+export interface WizardActions {
   setMode: (mode: 'auto' | 'manual') => void;
   setPrincipal: (money: Money) => void;
   setTargetMonthlyNet: (money: Money) => void;
@@ -46,8 +59,11 @@ export interface WizardState {
   confirmStep: (step: number) => void;
   goToStep: (step: number) => void;
   goBack: () => void;
+  restoreFromInput: (input: PortfolioInput) => void;
   reset: () => void;
 }
+
+export type WizardState = WizardData & WizardActions;
 
 function initialState() {
   const preset = taxPresetOf(DEFAULT_COUNTRY);
@@ -68,28 +84,8 @@ function initialState() {
     bondRatio: BOND_RATIO_DEFAULT,
     manualHoldings: [],
     confirmedSteps: [],
-  } satisfies Omit<WizardState, keyof WizardActions>;
+  } satisfies WizardData;
 }
-
-type WizardActions = Pick<
-  WizardState,
-  | 'setMode'
-  | 'setPrincipal'
-  | 'setTargetMonthlyNet'
-  | 'setResidenceCountry'
-  | 'setExtraCurrency'
-  | 'setTax'
-  | 'setFxRate'
-  | 'resetFxRate'
-  | 'applyFxSnapshot'
-  | 'setBondRatio'
-  | 'toggleHolding'
-  | 'setHoldingWeight'
-  | 'confirmStep'
-  | 'goToStep'
-  | 'goBack'
-  | 'reset'
->;
 
 const withStep = (steps: number[], step: number) =>
   steps.includes(step) ? steps : [...steps, step].sort((a, b) => a - b);
@@ -170,5 +166,25 @@ export const useWizardStore = create<WizardState>((set) => ({
 
   goToStep: (step) => set({ step }),
   goBack: () => set((state) => ({ step: Math.max(FIRST_STEP, state.step - 1) })),
+
+  restoreFromInput: (input) =>
+    set({
+      ...initialState(),
+      mode: input.mode,
+      principal: input.principal,
+      targetMonthlyNet: input.targetMonthlyNet,
+      residenceCountry: input.residenceCountry,
+      extraCurrency:
+        input.displayCurrencies.find((code) => !FIXED_DISPLAY_CURRENCIES.includes(code)) ?? null,
+      tax: input.tax,
+      fxRates: { ...input.fxRates },
+      // Treated as overrides so /api/fx cannot overwrite the saved snapshot's rates.
+      fxOverrides: Object.keys(input.fxRates) as CurrencyCode[],
+      bondRatio: input.bondRatio ?? BOND_RATIO_DEFAULT,
+      manualHoldings: input.manualHoldings ?? [],
+      confirmedSteps: ALL_INPUT_STEPS,
+      step: PREVIEW_STEP,
+    }),
+
   reset: () => set(initialState()),
 }));
