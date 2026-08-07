@@ -41,7 +41,7 @@ export function ResultSection() {
     return (
       <div className="flex flex-col items-start gap-4">
         <p className="text-sm text-destructive">{error ?? '입력이 아직 완성되지 않았습니다.'}</p>
-        <Button variant="outline" onClick={goBack}>
+        <Button variant="outline" onClick={goBack} className="h-11 px-4">
           이전 단계로
         </Button>
       </div>

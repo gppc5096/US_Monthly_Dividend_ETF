@@ -45,7 +45,7 @@ export function StepModeSelect() {
             key={option.value}
             className={cn(
               'group relative flex min-h-[8.5rem] cursor-pointer flex-col gap-2 rounded-lg border bg-card p-5 transition-colors',
-              'hover:border-brand/60 has-focus-visible:ring-3 has-focus-visible:ring-ring/50',
+              'hover:border-brand/60 has-[:focus-visible]:ring-3 has-[:focus-visible]:ring-ring/50',
               mode === option.value ? 'border-brand bg-brand/5' : 'border-rule',
             )}
           >

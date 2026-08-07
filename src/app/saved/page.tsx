@@ -48,11 +48,14 @@ export default function SavedPage() {
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 md:px-8">
       <header className="flex flex-col gap-3 pt-8 pb-6 md:pt-12">
-        <div className="flex items-baseline justify-between gap-4">
+        <div className="flex items-center justify-between gap-4">
           <h1 className="font-heading text-xl font-semibold tracking-tight md:text-2xl">
             저장한 시나리오
           </h1>
-          <Link href="/" className="text-xs text-muted-foreground underline">
+          <Link
+            href="/"
+            className="-my-3 inline-flex min-h-11 shrink-0 items-center rounded-md px-2 text-xs text-muted-foreground underline"
+          >
             계산기로 돌아가기
           </Link>
         </div>

@@ -69,7 +69,10 @@ export function StepCountry() {
           value={residenceCountry}
           onValueChange={(next) => setResidenceCountry(next as CountryCode)}
         >
-          <SelectTrigger id="residence-country" className="h-12 w-full rounded-md px-4 text-base">
+          <SelectTrigger
+            id="residence-country"
+            className="w-full rounded-md px-4 text-base data-[size=default]:h-12"
+          >
             <SelectValue>
               {(value: string) => countryByCode(value)?.name ?? value}
             </SelectValue>

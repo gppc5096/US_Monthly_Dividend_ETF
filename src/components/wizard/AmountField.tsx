@@ -52,7 +52,7 @@ export function AmountField({
         >
           <SelectTrigger
             aria-label="입력 통화"
-            className="h-14 w-24 justify-center rounded-md px-3 font-mono text-base"
+            className="w-24 justify-center rounded-md px-3 font-mono text-base data-[size=default]:h-14"
           >
             <SelectValue />
           </SelectTrigger>

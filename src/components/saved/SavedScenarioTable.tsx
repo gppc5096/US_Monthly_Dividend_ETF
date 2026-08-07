@@ -46,10 +46,10 @@ function Actions({
 }: Pick<SavedScenarioTableProps, 'onView' | 'onDelete'> & { scenario: Scenario }) {
   return (
     <div className="flex gap-2">
-      <Button variant="outline" size="sm" onClick={() => onView(scenario)}>
+      <Button variant="outline" onClick={() => onView(scenario)} className="h-11 px-4">
         보기
       </Button>
-      <Button variant="ghost" size="sm" className="text-warn" onClick={() => onDelete(scenario)}>
+      <Button variant="ghost" onClick={() => onDelete(scenario)} className="h-11 px-4 text-warn">
         삭제
       </Button>
     </div>

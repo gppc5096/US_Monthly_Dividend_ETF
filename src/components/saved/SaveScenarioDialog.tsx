@@ -84,13 +84,18 @@ export function SaveScenarioDialog({ input, result }: SaveScenarioDialogProps) {
               id={TITLE_FIELD_ID}
               value={title}
               onChange={(event) => setTitle(event.target.value)}
+              className="h-11"
               autoFocus
             />
           </div>
 
           <DialogFooter>
-            <DialogClose render={<Button variant="outline" />}>취소</DialogClose>
-            <Button onClick={save} disabled={isSaving || title.trim() === ''}>
+            <DialogClose render={<Button variant="outline" className="h-11" />}>취소</DialogClose>
+            <Button
+              onClick={save}
+              disabled={isSaving || title.trim() === ''}
+              className="h-11"
+            >
               {isSaving ? '저장 중…' : '저장'}
             </Button>
           </DialogFooter>

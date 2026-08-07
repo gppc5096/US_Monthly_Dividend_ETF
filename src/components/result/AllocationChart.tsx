@@ -28,8 +28,9 @@ export function AllocationChart({ groupWeights }: AllocationChartProps) {
     <div className="flex flex-col items-center gap-5 rounded-lg border border-rule bg-card p-4 sm:flex-row sm:gap-6">
       <div className="h-[200px] w-[200px] shrink-0" aria-hidden>
         <ResponsiveContainer width="100%" height={CHART_HEIGHT}>
-          <PieChart>
+          <PieChart accessibilityLayer={false} tabIndex={-1}>
             <Pie
+              rootTabIndex={-1}
               data={slices}
               dataKey="weight"
               nameKey="label"

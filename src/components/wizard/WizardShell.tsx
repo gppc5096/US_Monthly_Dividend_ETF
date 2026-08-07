@@ -53,8 +53,11 @@ export function WizardShell() {
               배당 현금흐름 계산기
             </span>
           </h1>
-          <div className="flex items-baseline gap-4">
-            <Link href="/saved" className="text-xs text-muted-foreground underline">
+          <div className="-my-3 flex items-center gap-2">
+            <Link
+              href="/saved"
+              className="inline-flex min-h-11 items-center rounded-md px-2 text-xs text-muted-foreground underline"
+            >
               저장 목록
             </Link>
             <span className="tnum font-mono text-xs text-muted-foreground">

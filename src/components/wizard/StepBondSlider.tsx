@@ -56,7 +56,7 @@ export function StepBondSlider() {
           onValueChange={(value) =>
             setBondRatio(fromPercentValue(typeof value === 'number' ? value : value[0]))
           }
-          className="mt-8 [&_[data-slot=slider-thumb]]:size-6 [&_[data-slot=slider-track]]:h-2"
+          className="mt-8 [&_[data-slot=slider-thumb]]:size-6 [&_[data-slot=slider-thumb]]:after:-inset-2.5 [&_[data-slot=slider-track]]:h-2"
         />
 
         <div className="mt-3 flex justify-between font-mono text-xs text-muted-foreground">

@@ -34,8 +34,15 @@ export function DeleteConfirmDialog({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isDeleting}>취소</AlertDialogCancel>
-          <AlertDialogAction variant="destructive" onClick={onConfirm} disabled={isDeleting}>
+          <AlertDialogCancel className="h-11" disabled={isDeleting}>
+            취소
+          </AlertDialogCancel>
+          <AlertDialogAction
+            variant="destructive"
+            className="h-11"
+            onClick={onConfirm}
+            disabled={isDeleting}
+          >
             {isDeleting ? '삭제 중…' : '삭제'}
           </AlertDialogAction>
         </AlertDialogFooter>
